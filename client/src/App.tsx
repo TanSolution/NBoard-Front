@@ -5,14 +5,14 @@ import {
   Route,
 } from 'react-router-dom';
 import { ApolloProvider } from "@apollo/client";
-import client from './client/index';
+import apollo from './apollo/index';
 
 import BoardViewPage from './pages/BoardViewPage/BoardViewPage';
 import BoardWritePage from './pages/BoardWritePage/BoardWritePage';
 
 function App() {
   return (
-    <ApolloProvider client={client}>
+    <ApolloProvider client={apollo}>
       <Router>
         <Routes>
           <Route path='/' element={<BoardViewPage />} />

@@ -3,6 +3,7 @@ import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import { addBoard } from "../../stores/board";
+import { useNavigate } from "react-router-dom";
 
 export default function BoardWritePage() {
     const [name, setName] = useState("")
@@ -10,13 +11,20 @@ export default function BoardWritePage() {
     const [title, setTitle] = useState("")
     const [content, setContent] = useState("")
 
+    const navigate = useNavigate()
+
     const onSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         addBoard(name, age, title, content)
+        navigate('/')
     }
 
     const onChangeName = (e: React.ChangeEvent<HTMLInputElement>) => {
         setName(e.target.value)
+    }
+
+    const onChangeAge = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setAge(Number(e.target.value))
     }
 
     const onChangeTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -34,7 +42,6 @@ export default function BoardWritePage() {
                 component="form"
                 noValidate
                 autoComplete="off"
-                onSubmit={onSubmit}
             >
                 <div>
                     <TextField 
@@ -49,6 +56,7 @@ export default function BoardWritePage() {
                         label="Age"
                         sx={{m: 1}}
                         value={age}
+                        onChange={onChangeAge}
                     />
                     <TextField
                         required
@@ -71,7 +79,7 @@ export default function BoardWritePage() {
                 </div>
                 <div style={{textAlign: 'center'}}>
                     <Button variant="outlined" sx={{m: 1}}>임시등록</Button>
-                    <Button variant="contained" sx={{m: 1}} onSubmit={onSubmit}>등록하기</Button>
+                    <Button variant="contained" sx={{m: 1}} onClick={onSubmit}>등록하기</Button>
                 </div>
             </Box>
         </div>

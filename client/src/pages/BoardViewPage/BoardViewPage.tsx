@@ -1,6 +1,7 @@
-import React, {FC} from "react"
+import React, {FC, useState} from "react"
 import styles from './BoardView.module.css'
 import { useNavigate } from "react-router"
+import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -9,32 +10,43 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import Modal from '@mui/material/Modal';
 import { useReactiveVar, useQuery } from "@apollo/client";
-import {Board} from "../../stores/board"
+import { GET_BOARDS } from "../../queries/board";
 
-function createData (
-    index: number,
-    title: string,
-    writer: string,
-    ) {
-    return { index, title, writer };
-}
 
-interface Props {
-    boards: Board;
-}
-
-const rows = [
-    createData(1, '반갑습니다.', '홍길동'),
-    createData(2, '환영해요.', '홍길동'),
-];
-
-export const BoardViewPage: FC<Props> = ({boards}) => {
+const BoardViewPage: FC = () => {
     const navigate = useNavigate();
+    const {data} = useQuery(GET_BOARDS)
+
+    const [open, setOpen] = useState(false)
+
+    const [info, setInfo] = useState({name: '', age: 0, title: '', content: ''})
+    
+    const handleOpen = (boards: any) => {
+        setOpen(true)
+        setInfo(boards)
+    }
+
+    const handleClose = () => {
+        setOpen(false)
+    }
 
     const onClickMove = () => {
         navigate('/write')
     }
+
+    const style = {
+        position: 'absolute' as 'absolute',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        width: 400,
+        bgcolor: 'background.paper',
+        border: '2px solid #000',
+        boxShadow: 24,
+        p: 4,
+    };
 
     return (
         <div className='fullDiv'>
@@ -52,23 +64,36 @@ export const BoardViewPage: FC<Props> = ({boards}) => {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {boards.map((row) => {
+                            {data?.getBoards?.map((boards: any) => {
                                 return (
                                     <TableRow
-                                        key={row.id}
+                                        key={boards.id}
+                                        onClick={() => handleOpen(boards)}
                                         sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                     >
-                                        <TableCell align="center">{row.id}</TableCell>
-                                        <TableCell align="center">{row.title}</TableCell>
-                                        <TableCell align="center">{row.name}</TableCell>
+                                        <TableCell align="center">{boards.id}</TableCell>
+                                        <TableCell align="center">{boards.title}</TableCell>
+                                        <TableCell align="center">{boards.name}</TableCell>
                                     </TableRow>
                                 )
                             })}
                         </TableBody>
                     </Table>
                 </TableContainer>
+                <Modal
+                    open={open}
+                    onClose={handleClose}
+                >
+                    <Box sx={style}>
+                        <p>작성자: {info.name}</p>
+                        <p>나이: {info.age}</p>
+                        <p>제목: {info.title}</p>
+                        <p>내용: {info.content}</p>
+                    </Box>
+                </Modal>
             </div>
-            
         </div>
     )
 }
+
+export default BoardViewPage
