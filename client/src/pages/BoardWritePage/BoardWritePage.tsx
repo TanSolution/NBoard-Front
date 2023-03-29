@@ -45,21 +45,18 @@ export default function BoardWritePage() {
             >
                 <div>
                     <TextField 
-                        required
                         label="Name"
                         sx={{m: 1}}
                         value={name}
                         onChange={onChangeName}
                     />
                     <TextField
-                        required
                         label="Age"
                         sx={{m: 1}}
                         value={age}
                         onChange={onChangeAge}
                     />
                     <TextField
-                        required
                         label="Title"
                         fullWidth
                         sx={{m: 1}}
@@ -67,7 +64,6 @@ export default function BoardWritePage() {
                         onChange={onChangeTitle}
                     />
                     <TextField
-                        required
                         label="Content"
                         fullWidth
                         multiline

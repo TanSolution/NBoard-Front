@@ -1,4 +1,4 @@
-import React, {FC, useState} from "react"
+import {FC, useState} from "react"
 import styles from './BoardView.module.css'
 import { useNavigate } from "react-router"
 import Box from '@mui/material/Box';
@@ -11,7 +11,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import Modal from '@mui/material/Modal';
-import { useReactiveVar, useQuery } from "@apollo/client";
+import { useQuery } from "@apollo/client";
 import { GET_BOARDS } from "../../queries/board";
 
 
